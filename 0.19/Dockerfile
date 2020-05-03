@@ -36,6 +36,11 @@ RUN set -ex \
   && rm *.tar.gz *.asc \
   && rm -rf /opt/bitcoin-${BITCOIN_VERSION}/bin/bitcoin-qt
 
+RUN echo 'alias bitcoin-cli="bitcoin-cli -regtest -rpcuser=user -rpcpassword=password"' >> ~/.bashrc
+RUN echo 'alias setup="bitcoin-cli generatetoaddress 101 $(bitcoin-cli getnewaddress)"' >> ~/.bashrc
+RUN echo 'alias block="bitcoin-cli generatetoaddress 1 $(bitcoin-cli getnewaddress)"' >> ~/.bashrc
+RUN echo 'alias send="bitcoin-cli sendtoaddress $1 $2"' >> ~/.bashrc
+
 COPY docker-entrypoint.sh /entrypoint.sh
 
 VOLUME ["/home/bitcoin/.bitcoin"]
